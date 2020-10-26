@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="utf-8"/>
+    <title>Portal</title>
+    <meta name="description" content=""/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <style>
+        .main_img {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 400px;
+            width: 100%;
+        }
+
+        img {
+            max-height: 100%;
+            max-width: 100%;
+        }
+
+        .slider_img {
+            overflow: visible;
+            display: flex;
+            transition: all 0.25s;
+        }
+
+        .slider_img_img {
+            width: 90px;
+            height: 90px;
+            border-radius: 4px;
+            margin: 5px;
+            overflow: hidden;
+            flex: 0 0 auto;
+        }
+
+        .slider_img_img.active {
+            border: 1px solid blueviolet;
+            box-sizing: border-box;
+        }
+
+        .slider_img_img.active img {
+            border-radius: 50%;
+        }
+
+        .slider_img_img img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            object-position: center;
+        }
+
+        .cover_slider {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            max-width: 620px;
+            padding: 30px;
+            margin: auto;
+        }
+        .slider_img_all{
+            width: 500px;
+            margin: auto;
+            overflow: hidden;
+        }
+    </style>
+</head>
+<body class="bodyClass">
+<div>
+    <div>
+        <span id="current-index">1</span>
+        <span> / <span id="all-index"></span></span>
+    </div>
+    <div class="main_img">
+        <img id="main-img" src="imgs/Animal1.jpg">
+    </div>
+    <div class="cover_slider">
+        <button class="arrow_left">&#8592;</button>
+        <div class="slider_img_all">
+            <div class="slider_img">
+                <div class="slider_img_img active">
+                    <img src="imgs/Animal1.jpg">
+                </div>
+                <div class="slider_img_img">
+                    <img src="imgs/Animal2.jpg">
+                </div>
+                <div class="slider_img_img">
+                    <img src="imgs/Animal3.jpg">
+                </div>
+                <div class="slider_img_img">
+                    <img src="imgs/Animal4.jpg">
+                </div>
+                <div class="slider_img_img">
+                    <img src="imgs/Animal5.jpg">
+                </div>
+                <div class="slider_img_img">
+                    <img src="imgs/Animal6.jpg">
+                </div>
+                <div class="slider_img_img">
+                    <img src="imgs/Animal7.jpg">
+                </div>
+                <div class="slider_img_img">
+                    <img src="imgs/Animal8.jpg">
+                </div>
+                <div class="slider_img_img">
+                    <img src="imgs/Animal9.png">
+                </div>
+                <div class="slider_img_img">
+                    <img src="imgs/Animal10.png">
+                </div>
+            </div>
+        </div>
+        <button class="arrow_right">&#8594;</button>
+    </div>
+
+</div>
+<script>
+
+    const offset = 100;
+    const mainImg = document.querySelector('#main-img');
+    const sliderBlock = document.querySelector('.slider_img');
+    const arrowRight = document.querySelector('.arrow_right');
+    const arrowLeft = document.querySelector('.arrow_left');
+    const sliderImages = document.querySelector('.slider_img').querySelectorAll('.slider_img_img');
+    const currentIndex = document.getElementById('current-index');
+    const lastSliderImagesIndex = sliderImages.length - 1;
+    let allIndex = document.getElementById('all-index');
+    let currentImageIndex = 0;
+    let blockPosition = 0;
+
+    allIndex.innerText = sliderImages.length;
+
+    sliderImages.forEach(node => {
+        node.addEventListener('click', e => {
+            const src = node.children[0].src;
+            mainImg.src = src;
+        })
+    });
+
+    function removeSliderImageActiveClass() {
+        sliderImages.forEach(item => {
+            item.classList.remove('active')
+        })
+    }
+
+    sliderImages.forEach((item, index) => {
+        item.addEventListener('click', function () {
+            currentIndex.innerText = index + 1
+            removeSliderImageActiveClass();
+            this.classList.add('active');
+        })
+    });
+
+    arrowLeft.addEventListener('click', function () {
+        console.log('Left');
+        if (currentImageIndex > 0) {
+            currentImageIndex--;
+            blockPosition += offset;
+        } else {
+            currentImageIndex = 0;
+            blockPosition = 0;
+        }
+        sliderBlock.style.transform = `translateX(${blockPosition}px)`;
+    });
+
+    arrowRight.addEventListener('click', function () {
+        console.log('Right');
+        if (currentImageIndex < lastSliderImagesIndex) {
+            currentImageIndex++;
+            blockPosition -= offset;
+        } else {
+            currentImageIndex = 0;
+            blockPosition = 0;
+        }
+        sliderBlock.style.transform = `translateX(${blockPosition}px)`;
+
+    });
+
+</script>
+</body>
+</html>
